@@ -25,7 +25,6 @@ public class Launcher {
     private static String dbAddress;
     private static String dbUser;
     private static String dbPassword;
-    private static Connection conn;
     
     public static void main(String[] args) throws Exception {
         try{
@@ -36,12 +35,9 @@ public class Launcher {
             return;
         }
         Class.forName("org.postgresql.Driver");
-        try{
-            conn = DriverManager.getConnection(dbAddress, dbUser, dbPassword);
+        try(Connection conn = DriverManager.getConnection(dbAddress, dbUser, dbPassword)){
             Parser p = new Parser(csvFile,conn);
             p.parse();
-        } finally {
-            conn.close();
         }
     }
 

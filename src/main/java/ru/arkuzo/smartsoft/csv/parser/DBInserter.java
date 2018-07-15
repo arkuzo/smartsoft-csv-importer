@@ -10,8 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -34,15 +33,9 @@ class DBInserter {
         query.setString(1,  r[0]);
         Timestamp timestamp = new Timestamp((Long.valueOf(r[1])*1000));
         query.setTimestamp(2, timestamp);
-        query.setString(3,  r[2]);
-        query.setString(4,  r[3]);
-        query.setString(5,  r[4]);
-        query.setString(6,  r[5]);
-        query.setString(7,  r[6]);
-        query.setString(8,  r[7]);
-        query.setString(9,  r[8]);
-        query.setString(10, r[9]);
-        query.setString(11, r[10]);
+        for(int i=2; i<11; i++){
+            query.setString(i+1, r[i]);
+        }
         query.setString(12, representTimestamp(timestamp));
         query.execute();
     }
@@ -79,12 +72,7 @@ class DBInserter {
     }
 
     private String representTimestamp(Timestamp timestamp) {
-        StringBuilder result = new StringBuilder();
-        result.append(String.format("%04d", timestamp.getYear()+1900))
-                .append('-').append(String.format("%02d", timestamp.getMonth()+1))
-                .append('-').append(String.format("%02d", timestamp.getDate()))
-                .append('-').append(String.format("%02d", timestamp.getHours()));
-        return new String(result);
+        return new SimpleDateFormat("yyyy-MM-dd-HH").format(timestamp);
     }
     
 }

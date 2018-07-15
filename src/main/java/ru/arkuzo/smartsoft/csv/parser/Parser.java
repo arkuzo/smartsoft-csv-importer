@@ -9,16 +9,15 @@ import au.com.bytecode.opencsv.CSVReader;
 import java.io.*;
 import java.sql.*;
 import java.util.List;
-import org.postgresql.util.PGTimestamp;
 
 /**
  *
  * @author arseniy
  */
 public class Parser {
-    File csvFile;
+    private final File csvFile;
     
-    DBInserter inserter;
+    private final DBInserter inserter;
 
     public Parser(File csvFile, Connection conn) throws SQLException {
         this.csvFile = csvFile;
